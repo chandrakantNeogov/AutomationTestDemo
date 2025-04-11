@@ -51,12 +51,21 @@ android {
     }
 
 }
+
 jacoco {
     toolVersion = "0.8.8"
 }
+
+tasks.withType<Test> {
+    jacoco {
+
+    }
+
+}
+
+
 tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest", "connectedDebugAndroidTest")
-
     reports {
         xml.required.set(true)
         html.required.set(true)
@@ -64,7 +73,7 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 
     val debugTree = fileTree(
         mapOf(
-            "dir" to "${layout.buildDirectory}/intermediates/javac/debug",
+            "dir" to "${project.layout.buildDirectory}/intermediates/javac/debug",
             "excludes" to listOf(
                 "**/R.class",
                 "**/R$*.class",
@@ -76,7 +85,7 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     )
     val kotlinDebugTree = fileTree(
         mapOf(
-            "dir" to "${layout.buildDirectory}/tmp/kotlin-classes/debug",
+            "dir" to "${project.layout.buildDirectory}/tmp/kotlin-classes/debug",
             "excludes" to listOf(
                 "**/R.class",
                 "**/R$*.class",
@@ -93,7 +102,7 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     executionData.setFrom(
         fileTree(
             mapOf(
-                "dir" to layout.buildDirectory,
+                "dir" to project.layout.buildDirectory,
                 "includes" to listOf(
                     "outputs/code-coverage/connected/*coverage.ec",
                     "jacoco/testDebugUnitTest.exec"
@@ -102,7 +111,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         )
     )
 }
-
 
 
 dependencies {
@@ -115,9 +123,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
 
 }
 

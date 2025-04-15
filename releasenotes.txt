@@ -1,0 +1,9 @@
+This is the second release of the project. It includes several new features and bug fixes.
+- Added a new feature to improve user experience.
+- Fixed a bug that caused the application to crash on startup.
+- Improved performance of the application.
+- Updated the documentation to reflect the latest changes.
+- Added unit tests to ensure code quality.
+- Refactored the codebase to improve readability and maintainability.
+- Updated dependencies to the latest versions.
+- Added support for new platforms.

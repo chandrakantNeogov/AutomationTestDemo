@@ -1,6 +1,10 @@
+import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.firebase.appdistribution)
+    alias(libs.plugins.google.gms.google.services)
     jacoco
 }
 
@@ -13,7 +17,7 @@ android {
         minSdk = 25
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,6 +44,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            firebaseAppDistribution {
+                releaseNotesFile = "releasenotes.txt"
+                testers = "ckondke@neogov.net"
+            }
         }
     }
     compileOptions {
@@ -54,13 +62,7 @@ android {
 
 jacoco {
     toolVersion = "0.8.8"
-}
-
-tasks.withType<Test> {
-    jacoco {
-
-    }
-
+    reportsDirectory = file("${project.layout.buildDirectory}/reports/jacoco")
 }
 
 

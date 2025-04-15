@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "66466916534",
+    "project_id": "appdistrubutiondemo",
+    "storage_bucket": "appdistrubutiondemo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66466916534:android:7baacaa011fd7c8f7fde17",
+        "android_client_info": {
+          "package_name": "com.example.appdistrubutiondemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYfPdo-fLWdIlVchCDZE8PWl0LSaW2HCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66466916534:android:88dcb91a2e4aaa617fde17",
+        "android_client_info": {
+          "package_name": "com.neogov.automationtestdemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYfPdo-fLWdIlVchCDZE8PWl0LSaW2HCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

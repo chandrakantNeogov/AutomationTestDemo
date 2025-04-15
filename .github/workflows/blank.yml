@@ -70,7 +70,7 @@ jobs:
 
       # This runs additional Fastlane lane tasks like lint checks or deployment, which don't require a device.
       - name: Run Fastlane Lint
-        run: fastlane android lint
+        run: fastlane android test
 
       - name: Deploy with Fastlane
         env:

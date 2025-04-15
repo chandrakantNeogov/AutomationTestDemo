@@ -1,4 +1,4 @@
-# CI for Pull Request
+# CI for Pull Request and build distribution
 
 Welcome to the **CI for Pull Request** demo project! This project showcases a comprehensive continuous integration (CI) and continuous deployment (CD) pipeline for Android applications using GitHub Actions. The pipeline is triggered on pull requests to the `master` branch and includes steps for building, testing, and deploying the application.
 
@@ -40,6 +40,12 @@ This GitHub Actions workflow includes several jobs and steps:
 9. **Publish Test Report**: Generates a test report in XML format.
 10. **Fastlane Tasks**: Runs unit tests and app distribution Fastlane tasks as needed.
 11. **Deploy to Firebase App Distribution**: Deploys the build to Firebase, facilitating beta testing and feedback collection.
+
+
+## Files in interest
+1. https://github.com/chandrakantNeogov/AutomationTestDemo/blob/master/app/build.gradle.kts
+2. https://github.com/chandrakantNeogov/AutomationTestDemo/blob/master/.github/workflows/actions.yml
+3. https://github.com/chandrakantNeogov/AutomationTestDemo/blob/master/fastlane/Fastfile
 
 ## Gradle Configuration
 

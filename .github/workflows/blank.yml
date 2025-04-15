@@ -39,6 +39,10 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run Fastlane
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: fastlane android test
       - name: Run Fastlane for android app distribution
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: fastlane android beta

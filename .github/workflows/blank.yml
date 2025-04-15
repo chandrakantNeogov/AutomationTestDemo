@@ -1,9 +1,16 @@
-name: CI for Pull Request
+name: CI for PRs and Merges
 
 on:
   pull_request:
     branches:
+      - '*'
+  push:
+    branches:
       - master
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   build:
@@ -17,27 +24,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
+      - name: Setup Environment
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ruby-full
+          ruby --version
+          echo "Ruby set up successfully."
 
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+      - <<: &setup-jdk-android
+        name: Set up JDK and Android SDK
+        steps:
+          - uses: actions/setup-java@v3
+            with:
+              java-version: '17'
+              distribution: 'temurin'
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 30
-          target: 'default'
-          arch: 'x86_64'
-          profile: 'pixel'
+          - uses: android-actions/setup-android@v2
+            with:
+              api-level: 30
+              target: 'default'
+              arch: 'x86_64'
+              profile: 'pixel'
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -55,7 +65,7 @@ jobs:
       - name: List APK files
         run: ls -R app/build/outputs/apk/
 
-      - name: Run tests with Emulator.wtf
+      - name: Run instrumental tests with Emulator.wtf
         uses: emulator-wtf/run-tests@v0
         with:
           api-token: ${{ secrets.EW_API_TOKEN }}
@@ -72,11 +82,23 @@ jobs:
         with:
           report_paths: 'build/test-results/**/*.xml'
 
-      # This runs additional Fastlane lane tasks like lint checks or deployment, which don't require a device.
-      - name: Run Fastlane Lint
+      - name: Run Fastlane Unit Tests
         run: fastlane android test
 
-      - name: Deploy with Fastlane
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - *setup-jdk-android
+
+      - name: Build app for deployment
+        run: ./gradlew assembleRelease
+
+      - name: Deploy with Firebase using Fastlane
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: fastlane android beta

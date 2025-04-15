@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
 
     steps:
       - name: Checkout repository
@@ -30,6 +27,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 30
+          target: 'default'
+          arch: 'x86_64'
+          profile: 'pixel'
+
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
@@ -40,8 +45,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run Fastlane tests
-        run: fastlane android test
+      - name: Build app and test APKs
+        run: ./gradlew assembleDebug assembleAndroidTest
+
+      - name: List APK files
+        run: ls -R app/build/outputs/apk/
+
+      - name: Run tests with Emulator.wtf
+        uses: emulator-wtf/run-tests@v0
+        with:
+          api-token: ${{ secrets.EW_API_TOKEN }}
+          app: app/build/outputs/apk/debug/app-debug.apk
+          test: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          outputs-dir: build/test-results
+          device: pixel2
+          os-version: 30
+          timeout-duration: 10m
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v2
@@ -49,7 +68,11 @@ jobs:
         with:
           report_paths: 'build/test-results/**/*.xml'
 
-      - name: Run Fastlane for app distribution
+      # This runs additional Fastlane lane tasks like lint checks or deployment, which don't require a device.
+      - name: Run Fastlane Lint
+        run: fastlane android lint
+
+      - name: Deploy with Fastlane
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: fastlane android beta

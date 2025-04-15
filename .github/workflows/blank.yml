@@ -4,10 +4,13 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -37,19 +40,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build app
-        run: ./gradlew assembleDebug assembleAndroidTest
-
-      - name: List APK files
-        run: ls -R app/build/outputs/apk/
-
-      - name: Run tests
-        uses: emulator-wtf/run-tests@v0
-        with:
-          api-token: ${{ secrets.EW_API_TOKEN }}
-          app: app/build/outputs/apk/debug/app-debug.apk
-          test: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-          outputs-dir: build/test-results
+      - name: Run Fastlane tests
+        run: fastlane android test
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v2
@@ -57,12 +49,7 @@ jobs:
         with:
           report_paths: 'build/test-results/**/*.xml'
 
-      - name: Run Fastlane
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: fastlane android test
-
-      - name: Run Fastlane for android app distribution
+      - name: Run Fastlane for app distribution
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: fastlane android beta

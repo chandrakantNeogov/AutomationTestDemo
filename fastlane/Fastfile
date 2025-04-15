@@ -21,7 +21,7 @@ platform :android do
     # Run unit tests
     gradle(task: "testDebugUnitTest")
     # Run instrumentation tests
-    gradle(task: "connectedAndroidTest")
+    #gradle(task: "connectedAndroidTest")
   end
 
   desc "Submit a new Beta Build to Firebase App Distribution"

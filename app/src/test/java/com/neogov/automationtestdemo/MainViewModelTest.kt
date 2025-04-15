@@ -55,6 +55,6 @@ class MainViewModelTest {
         val viewModel = MainViewModel()
         viewModel.onLoginClicked("test@example.com", "short")
         viewModel.clearPasswordError()
-        assertNotNull(viewModel.passwordError.value)
+        assertNull(viewModel.passwordError.value)
     }
 }

@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.neogov.automationtestdemo" />
+                  <option name="mobileSdkAppId" value="1:66466916534:android:88dcb91a2e4aaa617fde17" />
+                  <option name="projectId" value="appdistrubutiondemo" />
+                  <option name="projectNumber" value="66466916534" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

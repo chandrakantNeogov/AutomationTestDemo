@@ -41,4 +41,4 @@ jobs:
       - name: Run Fastlane
         run: fastlane android test
       - name: Run Fastlane for android app distribution
-        run: fastlane ios beta
+        run: fastlane android beta
